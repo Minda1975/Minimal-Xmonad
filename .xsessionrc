@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Load resources
+xrdb -merge .Xresources
+
+    
+#Apps
+xsetroot -cursor_name left_ptr &
+feh --bg-fill /home/mindaugas/Pictures/mojave.jpeg
+setxkbmap -layout "us,lt,ru" -option "grp:alt_shift_toggle"
+xautolock -time 10 -locker 'slock' &
+
+exec xmonad

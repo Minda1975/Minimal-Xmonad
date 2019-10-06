@@ -1,0 +1,41 @@
+
+
+
+#include ".xrdb/color/solarized"
+
+
+URxvt.font: xft:Hack:pixelsize=13
+URxvt.boldFont: xft:Hack:pixelsize=13:weight=bold
+URxvt.geometry: 		72x18
+URxvt*letterSpace: 	    0
+URxvt.lineSpace: 		0
+URxvt*internalBorder:   24
+URxvt*externalBorder:   0
+URxvt*depth:            32
+URxvt*saveline:         2000
+URxvt*termName:         rxvt-256color
+URxvt*iso14755:         false
+URxvt*scrollBar:        false
+URxvt*scrollBar_right:  false
+URxvt.copyCommand:      xclip -i -selection clipboard
+URxvt.pasteCommand:     xclip -o -selection clipboard
+URxvt.keysym.Shift-Up:	command:\033]720;1\007
+URxvt.keysym.Shift-Down:command:\033]721;1\007
+URxvt.urlLauncher:      firefox
+URxvt.underlineURLs:    true
+URxvt.urlButton:        1
+URxvt*buffered:         false          
+URxvt.urgentOnBell: 	True
+
+
+
+
+
+XTerm*faceName:          Hack
+XTerm*faceSize: 13
+
+
+Xcursor.theme: orange-cursor
+
+
+
