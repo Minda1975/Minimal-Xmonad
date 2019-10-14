@@ -1,38 +1,34 @@
 
 
+! =============================================================================
+! XTerm settings
+! =============================================================================
 
-#include ".xrdb/color/solarized"
+! Use white-on-black colors
+XTerm.vt100.reverseVideo: true
+UXTerm.vt100.reverseVideo: true
 
+! XTerm already has 256 colors support
+! We ask it to set the correct $TERM
+XTerm.termName: xterm-256color
+UXTerm.termName: xterm-256color
 
-URxvt.font: xft:Hack:pixelsize=13
-URxvt.boldFont: xft:Hack:pixelsize=13:weight=bold
-URxvt.geometry: 		72x18
-URxvt*letterSpace: 	    0
-URxvt.lineSpace: 		0
-URxvt*internalBorder:   24
-URxvt*externalBorder:   0
-URxvt*depth:            32
-URxvt*saveline:         2000
-URxvt*termName:         rxvt-256color
-URxvt*iso14755:         false
-URxvt*scrollBar:        false
-URxvt*scrollBar_right:  false
-URxvt.copyCommand:      xclip -i -selection clipboard
-URxvt.pasteCommand:     xclip -o -selection clipboard
-URxvt.keysym.Shift-Up:	command:\033]720;1\007
-URxvt.keysym.Shift-Down:command:\033]721;1\007
-URxvt.urlLauncher:      firefox
-URxvt.underlineURLs:    true
-URxvt.urlButton:        1
-URxvt*buffered:         false          
-URxvt.urgentOnBell: 	True
+! Start with maximized window
+xterm*maximized: true
 
+! Make Alt key behave like in other terminals
+XTerm.vt100.metaSendsEscape: true
+UXTerm.vt100.metaSendsEscape: true
 
+! Number of lines to save for scrolling
+XTerm.vt100.saveLines: 100000
+UXTerm.vt100.saveLines: 100000
 
+! Increase-decrease font size using Ctrl-/+
+xterm*VT100.Translations: #override \
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font()
 
-
-XTerm*faceName:          Hack
-XTerm*faceSize: 13
 
 
 Xcursor.theme: orange-cursor
