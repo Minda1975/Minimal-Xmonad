@@ -5,14 +5,16 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Layout.BinarySpacePartition
-import XMonad.Layout.Maximize
-import XMonad.Layout.ResizableTile (ResizableTall(..))
-import XMonad.Layout.ToggleLayouts (ToggleLayout(..), toggleLayouts)
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
+import qualified XMonad.StackSet as W
+import XMonad.Layout.BoringWindows
+import XMonad.Prompt
+import XMonad.Prompt.RunOrRaise
 import XMonad.Hooks.ManageHelpers
 import XMonad.Util.EZConfig
 import System.IO
-import XMonad.Actions.WindowBringer
+
 
 
 main = do
@@ -21,9 +23,9 @@ main = do
     { terminal = "urxvt"
     , modMask = mod4Mask
     , manageHook = manageDocks
-    , layoutHook = smartBorders $ avoidStruts $ myLayouts
+    , layoutHook = smartBorders $ avoidStruts $ myLayout
     , handleEventHook = fullscreenEventHook <+> docksEventHook
-    , logHook = dynamicLogWithPP $ xmobarPP
+    , logHook = dynamicLogWithPP $ sjanssenPP
                   { ppOutput = hPutStrLn xmproc
                    , ppTitle = xmobarColor "green" "" . shorten 50
                   }
@@ -31,22 +33,20 @@ main = do
 
      `additionalKeysP` -- Add some extra key bindings:
       [
-        ("M-<Esc>", sendMessage (Toggle "Full"))
-      , ("M-S-g",   gotoMenu)
-      , ("M-S-b",   bringMenu)
+        ("M-C-h", sendMessage $ pullGroup L)
+      , ("M-C-l",   sendMessage $ pullGroup R)
+      , ("M-C-k",   sendMessage $ pullGroup U)
       , ("M-w", spawn "/home/mindaugas/.scripts/screeny")
       , ("M-r", spawn "/home/mindaugas/.scripts/shutdown.sh")
       , ("M-x", spawn "firefox")
-      , ("M-M1-<Left>",    sendMessage $ ExpandTowards L)
-      , ("M-M1-<Right>",   sendMessage $ ShrinkFrom L)
-      , ("M-M1-<Up>",      sendMessage $ ExpandTowards U)
-      , ("M-M1-<Down>",    sendMessage $ ShrinkFrom U)
-      , ("M-M1-C-<Left>",  sendMessage $ ShrinkFrom R)
-      , ("M-M1-C-<Right>", sendMessage $ ExpandTowards R)
-      , ("M-M1-C-<Up>",    sendMessage $ ShrinkFrom D)
-      , ("M-M1-C-<Down>",  sendMessage $ ExpandTowards D)
-      , ("M-s",            sendMessage $ Swap)
-      , ("M-M1-s",         sendMessage $ Rotate)
+      , ("M-C-j",    sendMessage $ pullGroup D)
+      , ("M-C-m",   withFocused (sendMessage . MergeAll))
+      , ("M-C-u",      withFocused (sendMessage . UnMerge))
+      , ("M-period",    onGroup W.focusUp')
+      , ("M-comma",  onGroup W.focusDown')
+      , ("M-j", focusDown)
+      , ("M-k",    focusUp)
+      , ("M-C-x", runOrRaisePrompt def)
       ]
 --------------------------------------------------------------------------------
 -- | Customize layouts.
@@ -55,8 +55,7 @@ main = do
 -- and 'BinarySpacePartition'.  You can also use the 'M-<Esc>' key
 -- binding defined above to toggle between the current layout and a
 -- full screen layout.
-myLayouts = toggleLayouts (Full) others
-  where
-others = ResizableTall 1 (1.5/100) (3/5) [] ||| emptyBSP
 
+myLayout = windowNavigation $ subTabbed $ boringWindows $
+                       Tall 1 (3/100) (1/2) 
 
