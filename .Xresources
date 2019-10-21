@@ -5,8 +5,8 @@
 
 
 URxvt*depth: 32
-URxvt*font: -*-montecarlo-medium-r-normal-*-11-*-*-*-c-*-*-*
-URxvt*boldFont: -*-montecarlo-medium-r-normal-*-11-*-*-*-c-*-*-*
+URxvt*font: -*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
+URxvt*boldFont: -*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
 URxvt*title: urxvt
 URxvt*urgentOnBell: true
 URxvt*visualBell: false
@@ -22,8 +22,8 @@ URxvt.matcher.button: 1
 
 !xterm
 XTerm*colorMode:	on
-XTerm*font:			-*-montecarlo-medium-r-normal-*-11-*-*-*-c-*-*-*
-XTerm*boldFont:		-*-montecarlo-medium-r-normal-*-11-*-*-*-c-*-*-*
+XTerm*font:			-*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
+XTerm*boldFont:		-*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
 XTerm*visualBell:	true
 
 
