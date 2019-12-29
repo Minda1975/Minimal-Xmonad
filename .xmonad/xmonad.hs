@@ -163,7 +163,7 @@ myKeys =
           , ("Volume Control", "pavucontrol")
           , ("Gvim", "gvim")
           , ("Firefox", "firefox-esr")
-          , ("XFE", "xfe")
+          , ("Doublecommander", "doublecmd")
           , ("Urxvtc", "urxvtc")
           , ("Xterm", "xterm")
           , ("Gtk-Theme-Switch",    "gtk-theme-switch2")
