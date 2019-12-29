@@ -3,12 +3,10 @@
 # Load resources
 xrdb -merge .Xresources
 
-    
 #Apps
-xset +fp ~/.fonts/misc/
-xsetroot -cursor_name left_ptr &
+xsetroot -cursor_name left_ptr 
 setxkbmap -layout "us,lt,ru" -option "grp:ctrl_shift_toggle"
-xautolock -time 10 -locker 'slock' &
-
+udiskie -ANT2 &
+urxvtd -q -f -o
 
 exec xmonad
