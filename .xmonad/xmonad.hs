@@ -67,16 +67,16 @@ import XMonad.Prompt (defaultXPConfig, XPConfig(..), XPPosition(Top), Direction1
 ------------------------------------------------------------------------
 ---CONFIG
 ------------------------------------------------------------------------
-myFont          = "xft:Liberation Mono:regular:pixelsize=12"
+myFont          = "xft:Sans:regular:pixelsize=12"
 myModMask       = mod4Mask  -- Sets modkey to super/windows key
-myTerminal      = "urxvt"      -- Sets default terminal
-myTextEditor    = "emacs"     -- Sets default text editor
+myTerminal      = "urxvtc"      -- Sets default terminal
+myTextEditor    = "gvim"     -- Sets default text editor
 myBorderWidth   = 2         -- Sets border width for windows
 windowCount     = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
 main = do
-    -- Launching three instances of xmobar on their monitors.
-    xmproc <- spawnPipe "/home/mindaugas/.cabal/bin/xmobar /home/mindaugas/.xmobarrc"
+    -- Launching xmobar.
+    xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc"
         -- the xmonad, ya know...what the WM is named after!
     xmonad $ ewmh desktopConfig
         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageHook desktopConfig <+> manageDocks
@@ -107,7 +107,7 @@ main = do
 ------------------------------------------------------------------------
 myStartupHook = do
           --spawnOnce "emacs --daemon &"
-          spawnOnce "feh --bg-fill /home/mindaugas/Pictures/0244.jpg" 
+          spawnOnce "xsetroot -solid gray" 
           setWMName "LG3D"
           --spawnOnce "exec /usr/bin/trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 15 --transparent true --alpha 0 --tint 0x292d3e --height 19 &"
           --spawnOnce "/home/dt/.xmonad/xmonad.start" -- Sets our wallpaper
@@ -159,16 +159,16 @@ myKeys =
     --- Grid Select
         , (("M-S-t"), spawnSelected'
           [ ("Audacious", "audacious")
-          , ("Emacs", "emacs")
-          , ("Firefox", "firefox")
-          , ("LibreOffice Impress", "loimpress")
-          , ("LibreOffice Writer", "lowriter")
-          , ("PCManFM", "pcmanfm")
-          , ("Urxvt", "urxvt")
+          , ("Cmus", "urxvtc -e cmus")
+          , ("Volume Control", "pavucontrol")
+          , ("Gvim", "gvim")
+          , ("Firefox", "firefox-esr")
+          , ("XFE", "xfe")
+          , ("Urxvtc", "urxvtc")
           , ("Xterm", "xterm")
-          , ("Smplayer",    "smplayer")
-          , ("Lxtask", "lxtask")   
-          , ("Lxappearance", "lxappearance")           
+          , ("Gtk-Theme-Switch",    "gtk-theme-switch2")
+          , ("Htop", "urxvtc -e htop")   
+          , ("Irssi", "urxvtc -e irssi")           
           ])
 
         , ("M-S-g", goToSelected $ mygridConfig myColorizer)
@@ -236,15 +236,13 @@ myKeys =
     --- Open Terminal
         , ("M-<Return>", spawn myTerminal)
 
-    --- Dmenu Scripts (Alt+Ctr+Key)
-        , ("M1-C-<Return>", spawn "dmenu_run -fn 'Liberation Mono:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")
-        , ("M1-C-h", spawn "/home/mindaugas/.scripts/screeny")
-        , ("M1-C-m", spawn "/home/mindaugas/.scripts/shutdown.sh")
-       
+    --- Dmenu (Alt+Ctr+Key)
+        , ("M1-C-<Return>", spawn "dmenu_run -fn 'Terminus:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")
+               
     --- My Applications (Super+Alt+Key)
         , ("M-M1-a", spawn (myTerminal ++ " -e pulsemixer"))
         , ("M-M1-c", spawn (myTerminal ++ " -e cmus"))
-        , ("M-M1-e", spawn (myTerminal ++ " -e neomutt"))
+        , ("M-M1-e", spawn (myTerminal ++ " -e gotop"))
         , ("M-M1-i", spawn (myTerminal ++ " -e top"))
         , ("<Print>", spawn "scrot")
         ] where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
