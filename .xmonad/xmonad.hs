@@ -16,7 +16,6 @@ import XMonad.Util.Loggers
 import XMonad.Util.EZConfig (additionalKeysP, additionalMouseBindings)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (safeSpawn, unsafeSpawn, runInTerm, spawnPipe)
-import XMonad.Util.SpawnOnce
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, defaultPP, wrap, pad, xmobarPP, xmobarColor, shorten, PP(..))
@@ -69,8 +68,8 @@ import XMonad.Prompt (defaultXPConfig, XPConfig(..), XPPosition(Top), Direction1
 ------------------------------------------------------------------------
 myFont          = "xft:Sans:regular:pixelsize=12"
 myModMask       = mod4Mask  -- Sets modkey to super/windows key
-myTerminal      = "urxvtc"      -- Sets default terminal
-myTextEditor    = "gvim"     -- Sets default text editor
+myTerminal      = "urxvt"      -- Sets default terminal
+myTextEditor    = "nvim"     -- Sets default text editor
 myBorderWidth   = 2         -- Sets border width for windows
 windowCount     = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
@@ -94,24 +93,13 @@ main = do
                         }
         , modMask            = myModMask
         , terminal           = myTerminal
-        , startupHook        = myStartupHook
         , layoutHook         = myLayoutHook 
-        , workspaces         = myWorkspaces
         , borderWidth        = myBorderWidth
         , normalBorderColor  = "#292d3e"
         , focusedBorderColor = "#bbc5ff"
         } `additionalKeysP`         myKeys 
 
-------------------------------------------------------------------------
----AUTOSTART
-------------------------------------------------------------------------
-myStartupHook = do
-          --spawnOnce "emacs --daemon &"
-          spawnOnce "xsetroot -solid gray" 
-          setWMName "LG3D"
-          --spawnOnce "exec /usr/bin/trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 15 --transparent true --alpha 0 --tint 0x292d3e --height 19 &"
-          --spawnOnce "/home/dt/.xmonad/xmonad.start" -- Sets our wallpaper
-          
+       
 ------------------------------------------------------------------------
 ---GRID SELECT
 ------------------------------------------------------------------------
@@ -158,16 +146,18 @@ myKeys =
 
     --- Grid Select
         , (("M-S-t"), spawnSelected'
-          [ ("Audacious", "audacious")
-          , ("Cmus", "urxvtc -e cmus")
+          [ ("Mc", "urxvt -e mc")
+          , ("Audacious", "audacious")
+          , ("Cmus", "urxvt -e cmus")
+          , ("Htop", "urxvt -e htop")
           , ("Volume Control", "pavucontrol")
-          , ("Gvim", "gvim")
+          , ("Vim", "urxvt -e vim")
           , ("Firefox", "firefox-esr")
-          , ("Doublecommander", "doublecmd")
-          , ("Urxvtc", "urxvtc")
-          , ("Xterm", "xterm")
-          , ("Gtk-Theme-Switch",    "gtk-theme-switch2")
-          , ("Htop", "urxvtc -e htop")   
+          , ("Ranger", "urxvt -e ranger")
+          , ("Urxvt", "urxvt")
+          , ("Lxappearance",    "lxappearance")
+          , ("Transmission", "transmission-gtk")
+          , ("Gotop", "urxvt -e gotop")
           , ("Irssi", "urxvtc -e irssi")           
           ])
 
@@ -231,7 +221,7 @@ myKeys =
 
     --- Scratchpads
         , ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal")
-        , ("M-C-c", namedScratchpadAction myScratchPads "cmus")
+        , ("M-C-c", namedScratchpadAction myScratchPads "cmus") 
         
     --- Open Terminal
         , ("M-<Return>", spawn myTerminal)
@@ -248,31 +238,12 @@ myKeys =
         ] where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
                 nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
                 
-------------------------------------------------------------------------
----WORKSPACES
-------------------------------------------------------------------------
 
-xmobarEscape = concatMap doubleLts
-  where
-        doubleLts '<' = "<<"
-        doubleLts x   = [x]
-        
-myWorkspaces :: [String]   
-myWorkspaces = clickable . (map xmobarEscape) 
-               $ ["dev", "www", "sys", "doc", "msc", "chat", "mus", "vid", "gfx"]
-  where                                                                      
-        clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
-                      (i,ws) <- zip [1..9] l,                                        
-                      let n = i ] 
 myManageHook :: Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
      [
-        className =? "Firefox"     --> doShift "<action=xdotool key super+2>www</action>"
-      , className =? "cmus"        --> doShift "<action=xdotool key super+7>media</action>"
-      , className =? "smplayer"         --> doShift "<action=xdotool key super+7>media</action>"
-      , className =? "Viewnior"        --> doFloat
-      , className =? "Viewnior"        --> doShift "<action=xdotool key super+8>gfx</action>"
-      , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+        className =? "XCalc"        --> doFloat
+      , (className =? "Firefox-esr" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
      ] <+> namedScratchpadManageHook myScratchPads
 
 ------------------------------------------------------------------------
@@ -318,4 +289,4 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                  h = 0.9
                  w = 0.9
                  t = 0.95 -h
-                 l = 0.95 -w
+                 l = 0.95 -w 

@@ -3,7 +3,8 @@
 -- install xmobar with these flags: --flags="with_alsa" --flags="with_mpd" --flags="with_xft"  OR --flags="all_extensions"
 -- you can find weather location codes here: http://weather.noaa.gov/index.html
 
-Config { font = "-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*"
+Config { font = "xft:Sans:pixelsize=12:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:FontAwesome:pixelsize=13" ]
        , bgColor = "#282A36"
        , fgColor = "#B45BCF"
        , position = Top
@@ -11,7 +12,7 @@ Config { font = "-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*"
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
-       , iconRoot = "/home/dt/.xmonad/xpm/"  -- default: "."
+       , iconRoot = "/home/mindaugas/.xmonad/xpm/"  -- default: "."
        , commands = [ Run Date "%a, %b %d %Y, %H:%M:%S" "date" 10
                     , Run Network "enp8s0" ["-t", "<icon=net_up_20.xpm/>up <rxbar> <icon=net_down_20.xpm/>dn <txbar>"] 10
                     , Run Cpu ["-t", "<icon=cpu_20.xpm/> cpu <bar> (<total>%)","-H","50","--high","red"] 10
