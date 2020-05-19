@@ -1,12 +1,6 @@
 
-
-
-
-
-
 URxvt*depth: 32
-URxvt*font: -*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
-URxvt*boldFont: -*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
+URxvt.font:xft:monospace:size=11
 URxvt*title: urxvt
 URxvt*urgentOnBell: true
 URxvt*visualBell: false
@@ -22,8 +16,8 @@ URxvt.matcher.button: 1
 
 !xterm
 XTerm*colorMode:	on
-XTerm*font:			-*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
-XTerm*boldFont:		-*-dina-medium-r-normal-*-12-*-*-*-c-*-*-*
+XTerm*faceName:  monospace
+XTerm*faceSize: 11
 XTerm*visualBell:	true
 
 
@@ -93,7 +87,7 @@ XTerm*background: #292d3e
 XTerm*cursorColor: #bbc5ff
 
 ! black
-*.color0:       #101010  !! originally #292d3e
+*.color0:       #292d3e
 *.color8:       #434758
 
 ! red
